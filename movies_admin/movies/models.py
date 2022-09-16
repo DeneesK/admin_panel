@@ -5,8 +5,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class TimeStampedMixin(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
@@ -51,11 +51,6 @@ class Filmwork(TimeStampedMixin, UUIDMixin):
                             )
     creation_date = models.DateField(_('creation date'))
     genres = models.ManyToManyField(Genre, through='GenreFilmwork')
-    certificate = models.CharField(
-                                    _('certificate'),
-                                    max_length=512,
-                                    blank=True
-                                    )
     file_path = models.FileField(
                                 _('file'),
                                 blank=True,
