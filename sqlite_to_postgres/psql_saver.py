@@ -1,5 +1,7 @@
+from psycopg2.errors import Error
+
 from to_psql_dataclasses import FilmWork, Person, Genre, PersonFilm, FilmGenre
-from psycopg2.errors import DatabaseError
+from logger import logger
 
 
 class PostgresSaver:
@@ -52,57 +54,37 @@ class PostgresSaver:
             film_work = FilmWork(**row)
             try:
                 self.film_work_to_postgres(film_work)
-            except DatabaseError as ex:
-                print(ex,
-                      """
-                      Error occured while trying to wright data to film_work
-                      table, postgres
-                      """)
+            except Error as ex:
+                logger.error(ex)
 
     def save_staff(self, data):
         for row in data:
             person = Person(**row)
             try:
                 self.person_to_postgres(person)
-            except DatabaseError as ex:
-                print(ex,
-                      """
-                      Error occured while trying to wright data to person
-                      table, postgres
-                      """)
+            except Error as ex:
+                logger.error(ex)
 
     def save_genres(self, data):
         for row in data:
             genre = Genre(**row)
             try:
                 self.genre_to_postgres(genre)
-            except DatabaseError as ex:
-                print(ex,
-                      """
-                      Error occured while trying to wright data to genre
-                      table, postgres
-                      """)
+            except Error as ex:
+                logger.error(ex)
 
     def save_movies_staff(self, data):
         for row in data:
             person_film_work = PersonFilm(**row)
             try:
                 self.person_film_work_to_postgres(person_film_work)
-            except DatabaseError as ex:
-                print(ex,
-                      """
-                      Error occured while trying to wright data to
-                      person_film_work table, postgres
-                      """)
+            except Error as ex:
+                logger.error(ex)
 
     def save_movies_genres(self, data):
         for row in data:
             genre_film_work = FilmGenre(**row)
             try:
                 self.genre_film_work_postgres(genre_film_work)
-            except DatabaseError as ex:
-                print(ex,
-                      """
-                      Error occured while trying to wright data to
-                      genre_film_work table, postgres
-                      """)
+            except Error as ex:
+                logger.error(ex)
