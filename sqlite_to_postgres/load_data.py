@@ -25,23 +25,23 @@ def load_from_sqlite(connection: sqlite3.Connection, pg_conn: _connection):
     postgres_saver = PostgresSaver(pg_conn)
     sqlite_extractor = SQLiteExtractor(connection)
 
-    movie_data = sqlite_extractor.extract_data(table_name='film_work')
+    movie_data = sqlite_extractor.extract_data('film_work')
     for movies in movie_data:
         postgres_saver.save_movies(movies)
 
-    person_data = sqlite_extractor.extract_data(table_name='person')
+    person_data = sqlite_extractor.extract_data('person')
     for pesons in person_data:
         postgres_saver.save_staff(pesons)
 
-    genre_data = sqlite_extractor.extract_data(table_name='genre')
+    genre_data = sqlite_extractor.extract_data('genre')
     for genres in genre_data:
         postgres_saver.save_genres(genres)
 
-    movies_staff_data = sqlite_extractor.extract_data(table_name='person_film_work')
+    movies_staff_data = sqlite_extractor.extract_data('person_film_work')
     for staff in movies_staff_data:
         postgres_saver.save_movies_staff(staff)
 
-    movies_genres_data = sqlite_extractor.extract_data(table_name='genre_film_work')
+    movies_genres_data = sqlite_extractor.extract_data('genre_film_work')
     for movies_genres in movies_genres_data:
         postgres_saver.save_movies_genres(movies_genres)
 
