@@ -72,8 +72,8 @@ class Filmwork(TimeStampedMixin, UUIDMixin):
 
 
 class GenreFilmwork(UUIDMixin):
-    film_work = models.ForeignKey('Filmwork', on_delete=models.CASCADE)
-    genre = models.ForeignKey('Genre', on_delete=models.CASCADE)
+    film_work = models.ForeignKey(Filmwork, on_delete=models.CASCADE)
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -100,9 +100,15 @@ class Person(TimeStampedMixin, UUIDMixin):
 
 
 class PersonFilmwork(UUIDMixin):
-    film_work = models.ForeignKey('Filmwork', on_delete=models.CASCADE)
-    person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    role = models.TextField(_('role'), null=True)
+    film_work = models.ForeignKey(Filmwork, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+    class Role(models.TextChoices):
+        DIRECTOR = 'director', _('Режисер')
+        ACTOR = 'actor', _('Актер')
+        WRITER = 'writer', _('Сценарист')
+
+    role = models.CharField(choices=Role.choices, max_length=9)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
